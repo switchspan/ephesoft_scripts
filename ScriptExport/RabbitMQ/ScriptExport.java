@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Date;
+import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -20,18 +21,8 @@ import com.rabbitmq.client.*;
 // Google gson library
 import com.google.gson.Gson;
 
-
 import com.ephesoft.dcma.script.IJDomScript;
 
-// This class represents the RabbitMQ base message (converted to JSON)
-public class ExportCompletedMessage {
-	private String DocumentIdentifier;
-	private Date ReceivedDate = new Date();
-	
-	ExportCompletedMessage(String documentId) {
-		DocumentIdentifier = documentId;
-	}
-}
 
 public class ScriptExport implements IJDomScript {
 
@@ -89,18 +80,13 @@ public class ScriptExport implements IJDomScript {
 			}
 			
 			// Create a message to send via AMQP
-			ExportCompletedMessage completedMessage = new ExportCompletedMessage(batchInstanceId);
+			Map<String, String> messageMap = new HashMap<String, String>();
+			Date dateNow = new Date();
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			messageMap.put("DocumentIdentifier", batchInstanceID);
+			messageMap.put("DateReceived", df.format(dateNow));
 			Gson gson = new Gson();
-			String message = gson.toJson(completedMessage);
-			
-			// Date dateNow = new Date();
-			// DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			// String theDate = df.format(dateNow);
-			// System.out.println(theDate);
-			System.out.println(batchInstanceID);
-			// String message = batchInstanceID + " " + theDate;
-			//String message = String.format("{\"DocumentIdentifier\": \"%1\",\"DateReceived\": \"%2\"}", batchInstanceID, dateNow);
-			//String message = String.format("{ \"DocumentIdentifier\": \"%1\" }", docIdentifier);
+			String message = gson.toJson(messageMap);
 			
 			System.out.println("Message to send: ");
 			System.out.println(message);
@@ -123,15 +109,15 @@ public class ScriptExport implements IJDomScript {
 			System.out.println("Channel open, sending message...");
 			
 			// Send a message that we have a new document
-			channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY, null, messageBodyBytes);
+			//channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY, null, messageBodyBytes);
 			
 			// Send with builder class
-			// channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY,
-								// new AMQP.BasicProperties.Builder()
-								// .contentType("text/plain").deliveryMode(2)
-								// .priority(1)
-								// .build(),
-								// messageBodyBytes);
+			channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY,
+								new AMQP.BasicProperties.Builder()
+								.contentType("text/plain").deliveryMode(2)
+								.priority(1)
+								.build(),
+								messageBodyBytes);
 			
 			// Close the connection
 			channel.close();
