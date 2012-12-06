@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -76,7 +78,8 @@ public class ScriptExport implements IJDomScript {
 			
 			// Create a message to send via AMQP
 			Date dateNow = new Date();
-			String theDate = String.format("Date = %1", dateNow);
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			String theDate = df.format(dateNow);
 			System.out.println(theDate);
 			System.out.println(batchInstanceID);
 			String message = String.format("{\"DocumentIdentifier\": \"%1\",\"DateReceived\": \"%2\"}", batchInstanceID, dateNow);
