@@ -17,9 +17,21 @@ import org.jdom.output.XMLOutputter;
 
 // RabbitMQ libraries - the actual jar file needs to be placed in C:\Ephesoft\Application\WEB-INF\lib
 import com.rabbitmq.client.*;
+// Google gson library
+import com.google.gson.Gson;
 
 
 import com.ephesoft.dcma.script.IJDomScript;
+
+// This class represents the RabbitMQ base message (converted to JSON)
+public class ExportCompletedMessage {
+	private String DocumentIdentifier;
+	private Date ReceivedDate = new Date();
+	
+	ExportCompletedMessage(String documentId) {
+		DocumentIdentifier = documentId;
+	}
+}
 
 public class ScriptExport implements IJDomScript {
 
@@ -77,12 +89,17 @@ public class ScriptExport implements IJDomScript {
 			}
 			
 			// Create a message to send via AMQP
-			Date dateNow = new Date();
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			String theDate = df.format(dateNow);
-			System.out.println(theDate);
+			ExportCompletedMessage completedMessage = new ExportCompletedMessage(batchInstanceId);
+			Gson gson = new Gson();
+			String message = gson.toJson(completedMessage);
+			
+			// Date dateNow = new Date();
+			// DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			// String theDate = df.format(dateNow);
+			// System.out.println(theDate);
 			System.out.println(batchInstanceID);
-			String message = String.format("{\"DocumentIdentifier\": \"%1\",\"DateReceived\": \"%2\"}", batchInstanceID, dateNow);
+			// String message = batchInstanceID + " " + theDate;
+			//String message = String.format("{\"DocumentIdentifier\": \"%1\",\"DateReceived\": \"%2\"}", batchInstanceID, dateNow);
 			//String message = String.format("{ \"DocumentIdentifier\": \"%1\" }", docIdentifier);
 			
 			System.out.println("Message to send: ");
