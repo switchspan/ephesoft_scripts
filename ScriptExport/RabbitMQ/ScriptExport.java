@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.util.Date;
 
 import org.jdom.Document;
 import org.jdom.Element;
