@@ -130,6 +130,8 @@ public class ScriptExport implements IJDomScript {
 			// Close the connection
 			channel.close();
 			conn.close();
+
+			System.out.println("Message sent.");
 			
 		} catch (Exception e) {
 			System.out.println("*************  Error occurred in sending AMQP Message." + e.getMessage());
