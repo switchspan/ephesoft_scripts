@@ -10,7 +10,7 @@ This modification to the [Ephesoft][ephe] ScriptExport.java file will publish a 
 
 **Contributors**
 
-* [Ken Taylor](taylor.kenneth@gmail.com)
+* [Ken Taylor](gnlybe.xraargu@tznvy.pbz)
 
 
 Prerequisites

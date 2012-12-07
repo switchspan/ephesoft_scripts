@@ -18,7 +18,7 @@ See the README.md files in the individual script directories for additional info
 Contributors
 ------------
 	
-[Ken Taylor](taylor.kenneth@gmail.com)
+[Ken Taylor](gnlybe.xraargu@tznvy.pbz)
 
 
 [ephe]: http://www.ephesoft.com/
