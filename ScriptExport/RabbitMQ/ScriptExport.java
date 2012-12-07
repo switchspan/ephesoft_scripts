@@ -30,10 +30,15 @@ public class ScriptExport implements IJDomScript {
 	private static final String BATCH_INSTANCE_ID = "BatchInstanceIdentifier";
 	private static final String EXT_BATCH_XML_FILE = "_batch.xml";
 	private static String ZIP_FILE_EXT = ".zip";
-	private static String AMQP_URI = "amqp://guest:guest@127.0.0.1:5672/";
 	private static String AMQP_EXCHANGE = "TestExchange";
 	private static String AMQP_QUEUE = "TestQueue";
 	private static String AMQP_ROUTING_KEY = "#";
+	private static String AMQP_USERNAME = "guest";
+	private static String AMQP_PASSWORD = "guest";
+	private static String AMQP_HOST = "RabbitMqServer.NetworkName.local";
+	private static String AMQP_VIRTUAL_HOST = "/";
+	private static int AMQP_TCP_PORT = 5672;
+	
 	
 	public Object execute(Document document, String methodName, String docIdentifier) {
 		Exception exception = null;
@@ -88,6 +93,7 @@ public class ScriptExport implements IJDomScript {
 			Gson gson = new Gson();
 			String message = gson.toJson(messageMap);
 			
+			System.out.println(batchInstanceID);
 			System.out.println("Message to send: ");
 			System.out.println(message);
 			
@@ -95,12 +101,11 @@ public class ScriptExport implements IJDomScript {
 			
 			// We have a document, so open a connection to the RabbitMQ server
 			ConnectionFactory factory = new ConnectionFactory();
-			//factory.setUri(AMQP_URI);
-			factory.setUsername("guest");
-			factory.setPassword("guest");
-			factory.setVirtualHost("/");
-			factory.setHost("GALLARDO.require.local");
-			factory.setPort(5672);
+			factory.setUsername(AMQP_USERNAME);
+			factory.setPassword(AMQP_PASSWORD);
+			factory.setVirtualHost(AMQP_VIRTUAL_HOST);
+			factory.setHost(AMQP_HOST);
+			factory.setPort(AMQP_TCP_PORT);
 			
 			Connection conn = factory.newConnection();
 			// Open a channel
@@ -108,10 +113,7 @@ public class ScriptExport implements IJDomScript {
 			
 			System.out.println("Channel open, sending message...");
 			
-			// Send a message that we have a new document
-			//channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY, null, messageBodyBytes);
-			
-			// Send with builder class
+			// Send a message with the builder class
 			channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY,
 								new AMQP.BasicProperties.Builder()
 								.contentType("text/plain").deliveryMode(2)
