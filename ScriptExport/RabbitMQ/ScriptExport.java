@@ -113,10 +113,15 @@ public class ScriptExport implements IJDomScript {
 			
 			System.out.println("Channel open, sending message...");
 			
+			// Create a correclation id for the message
+			String corrId = java.util.UUID.randomUUID().toString();
+
 			// Send a message with the builder class
 			channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY,
 								new AMQP.BasicProperties.Builder()
-								.contentType("text/plain").deliveryMode(2)
+								.correlationId(corrId)
+								.contentType("application/json")
+								.deliveryMode(2)
 								.priority(1)
 								.build(),
 								messageBodyBytes);
