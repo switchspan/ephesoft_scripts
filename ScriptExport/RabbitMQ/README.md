@@ -45,6 +45,10 @@ API Documentation
 -----------------
 TBD
 
+Notes
+-----
+This current version I have tailored toward [EasyNetQ][easynetq] -- which is an opinionated way to do AMQP messages, so you may have to mod some of the connection information if you want to use it with a more generic setup.
+
 
 About 
 -----
@@ -55,3 +59,4 @@ TBD
 [gson]: http://code.google.com/p/google-gson/
 [rabbitmq]: http://www.rabbitmq.com/
 [rabbitjava]: http://www.rabbitmq.com/download.html 
+[easynetq]: http://easynetq.com/

@@ -1,7 +1,7 @@
 Ephesoft Java Scripts
 =====================
 
-This is a collection of modified [Ephesoft][ephe] Java script files for various uses, such as connecting to an RabbitMQ server.
+This is a collection of modified [Ephesoft][ephe] Java script files for various uses, such as connecting to a RabbitMQ server.
 
 Scripts
 -------
