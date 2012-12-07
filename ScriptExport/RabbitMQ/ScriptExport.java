@@ -95,12 +95,12 @@ public class ScriptExport implements IJDomScript {
 			
 			// We have a document, so open a connection to the RabbitMQ server
 			ConnectionFactory factory = new ConnectionFactory();
-			factory.setUri(AMQP_URI);
-			// factory.setUsername("guest");
-			// factory.setPassword("guest");
-			// factory.setVirtualHost("/");
-			// factory.setHost("12.0.0.1");
-			// factory.setPort(5672);
+			//factory.setUri(AMQP_URI);
+			factory.setUsername("guest");
+			factory.setPassword("guest");
+			factory.setVirtualHost("/");
+			factory.setHost("GALLARDO.require.local");
+			factory.setPort(5672);
 			
 			Connection conn = factory.newConnection();
 			// Open a channel
