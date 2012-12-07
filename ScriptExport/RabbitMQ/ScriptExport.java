@@ -120,9 +120,10 @@ public class ScriptExport implements IJDomScript {
 			channel.basicPublish(AMQP_EXCHANGE, AMQP_ROUTING_KEY,
 								new AMQP.BasicProperties.Builder()
 								.correlationId(corrId)
+								.type(AMQP_QUEUE)
 								.contentType("application/json")
 								.deliveryMode(2)
-								.priority(1)
+								.priority(0)
 								.build(),
 								messageBodyBytes);
 			
