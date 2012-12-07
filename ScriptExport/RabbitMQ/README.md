@@ -38,7 +38,16 @@ Installation
 	* [RabbitMQ Java Client][rabbitjava]
 2. Stop and restart your Ephesoft server
 3. Copy this version of ScriptExport.java to the appropriate Batch classes' scripts folder. E.g. `{Ephesoft_Install_Dir}\SharedFolders\{Batch_Class}\scripts\`
-4. Edit the ScriptExport.java file to change the settings for the RabbitMQ server
+4. Edit the ScriptExport.java file to change the following settings for the RabbitMQ server:
+
+		private static String AMQP_EXCHANGE = "TestExchange";
+		private static String AMQP_QUEUE = "TestQueue";
+		private static String AMQP_ROUTING_KEY = "#";
+		private static String AMQP_USERNAME = "guest";
+		private static String AMQP_PASSWORD = "guest";
+		private static String AMQP_HOST = "RabbitMqServer.NetworkName.local";
+		private static String AMQP_VIRTUAL_HOST = "/";
+		private static int AMQP_TCP_PORT = 5672;
 
 
 API Documentation
